@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'router_cubit.dart';
 
 abstract class RouterState extends Equatable {
   const RouterState();

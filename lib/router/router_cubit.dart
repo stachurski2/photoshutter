@@ -1,5 +1,6 @@
-import 'router_state.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+part 'router_state.dart';
 
 class RouterCubit extends Cubit<RouterState> {
   RouterCubit() : super(const RouteOnboardingState());
