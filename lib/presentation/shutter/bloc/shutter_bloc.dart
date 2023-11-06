@@ -13,8 +13,15 @@ class ShutterBloc extends Bloc<ShutterEvent, ShutterState> {
   }
 
   void _startBluetoothCentralState(ShutterAppearEvent event, Emitter<ShutterState> emit) async {
-    final didBluetoothStart = await bluetoothCentralRepository.runBluetoothCentral();
-      emit(state.copyWith(didBluetoothStart: didBluetoothStart));
+    final didBluetoothStartStream = bluetoothCentralRepository.runBluetoothCentral();
+    // await didBluetoothStart.listen((isBluetoothActive) async {
+    //   emit(state.copyWith(isBluetoothActive: isBluetoothActive));
+    // });
+    await emit.forEach(didBluetoothStartStream, onData: (bool isBluetoothActive) {
+      print("test");
+      print(isBluetoothActive.toString());
+      return state.copyWith(isBluetoothActive: isBluetoothActive);
+    });
   }
 
 }

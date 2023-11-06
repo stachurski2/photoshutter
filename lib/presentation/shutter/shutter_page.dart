@@ -32,7 +32,7 @@ class _ShutterPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children:<Widget>[
           Text("shutter"),
-          Text("Bluetooth active: " + state.didBluetoothStart.toString()),
+          Text("Bluetooth active: " + state.isBluetoothActive.toString()),
           SizedBox(height: 10,),
           TextButton(onPressed: () => {
             context.read<RouterCubit>().popExtra()

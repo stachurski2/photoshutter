@@ -1,15 +1,15 @@
 part of 'shutter_bloc.dart';
 
 class ShutterState {
-  final bool didBluetoothStart;
+  final bool isBluetoothActive;
 
   const ShutterState({
-    this.didBluetoothStart = false
+    this.isBluetoothActive = false
   });
 
   ShutterState copyWith({
-    bool? didBluetoothStart,
+    bool? isBluetoothActive,
   }) {
-    return ShutterState(didBluetoothStart: didBluetoothStart ?? this.didBluetoothStart);
+    return ShutterState(isBluetoothActive: isBluetoothActive ?? this.isBluetoothActive);
   }
 }
