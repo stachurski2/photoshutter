@@ -8,3 +8,7 @@ abstract class ShutterEvent extends Equatable {
 class ShutterAppearEvent extends ShutterEvent {
 
 }
+
+class ShutterScanEvent extends ShutterEvent {
+
+}

@@ -24,7 +24,6 @@ class _ShutterPage extends StatelessWidget {
           onVisibilityGained: (){
             BlocProvider.of<ShutterBloc>(context).add(ShutterAppearEvent());
             context.read<ShutterBloc>().add(ShutterAppearEvent());
-
           },
           child:
          Center(child:
@@ -33,6 +32,13 @@ class _ShutterPage extends StatelessWidget {
         children:<Widget>[
           Text("shutter"),
           Text("Bluetooth active: " + state.isBluetoothActive.toString()),
+         if(state.isBluetoothActive == true) ... [
+             TextButton(onPressed: () => {
+               BlocProvider.of<ShutterBloc>(context).add(ShutterScanEvent())
+             }, child: Text("scan devices")),
+           Column(children: state.scannedDeviceList.map((scannedDevice) => Row(children: [Spacer(), Text(scannedDevice.id), Text(scannedDevice.adLocalName ?? ""), Spacer()])).toList()),
+
+         ],
           SizedBox(height: 10,),
           TextButton(onPressed: () => {
             context.read<RouterCubit>().popExtra()
