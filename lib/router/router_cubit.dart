@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 part 'router_state.dart';
 
@@ -11,8 +11,8 @@ class RouterCubit extends Cubit<RouterState> {
 
   void goShutter([String? text]) => emit(RouteShutterState(text));
 
-  void popExtra()  {
-    if(state is RouteCounterState) {
+  void popExtra() {
+    if (state is RouteCounterState) {
       emit(const RouteOnboardingState());
     } else if (state is RouteCameraState) {
       emit(const RouteOnboardingState());

@@ -38,4 +38,3 @@ class RouteShutterState extends RouterState {
   @override
   List<Object?> get props => [extraPageContent];
 }
-

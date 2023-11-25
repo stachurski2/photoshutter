@@ -9,20 +9,26 @@ class AppRoot extends StatelessWidget {
   AppRoot({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => RouterCubit(),
-    child: MaterialApp(
-      home:  _router,
-    ),
-  );
-
-  Widget get _router => BlocBuilder<RouterCubit, RouterState>(
-    builder: (context, state) => Router(
-      routerDelegate: RootRouterDelegate(
-        navigatorKey,
-        context.read<RouterCubit>(),
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => RouterCubit(),
+      child: MaterialApp(
+        home: _router,
       ),
-      backButtonDispatcher: RootBackButtonDispatcher(),
-    ),
-  );
+    );
+  }
+
+  Widget get _router {
+    return BlocBuilder<RouterCubit, RouterState>(
+      builder: (context, state) {
+        return Router(
+          routerDelegate: RootRouterDelegate(
+            navigatorKey,
+            context.read<RouterCubit>(),
+          ),
+          backButtonDispatcher: RootBackButtonDispatcher(),
+        );
+      },
+    );
+  }
 }

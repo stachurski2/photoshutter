@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'router_cubit.dart';
 import 'package:photoshutter/presentation/onboarding/onboarding_page.dart';
@@ -10,7 +9,8 @@ class RootRouterDelegate extends RouterDelegate<RouterState> {
   final GlobalKey<NavigatorState> _navigatorKey;
   final RouterCubit _routerCubit;
 
-  RootRouterDelegate(GlobalKey<NavigatorState> navigatorKey, RouterCubit routerCubit)
+  RootRouterDelegate(
+      GlobalKey<NavigatorState> navigatorKey, RouterCubit routerCubit)
       : _navigatorKey = navigatorKey,
         _routerCubit = routerCubit;
 
@@ -18,13 +18,15 @@ class RootRouterDelegate extends RouterDelegate<RouterState> {
 
   @override
   Widget build(BuildContext context) => Navigator(
-    key: navigatorKey,
-    pages: List.from([
-      _materialPage(valueKey: "onboardingWidget", child:  const OnboardingPage(title: 'Flutter Demo Home Page')),
-      ..._extraPages,
-    ]),
-    onPopPage: _onPopPageParser,
-  );
+        key: navigatorKey,
+        pages: List.from([
+          _materialPage(
+              valueKey: "onboardingWidget",
+              child: const OnboardingPage(title: 'Flutter Demo Home Page')),
+          ..._extraPages,
+        ]),
+        onPopPage: _onPopPageParser,
+      );
 
   bool _onPopPageParser(Route<dynamic> route, dynamic result) {
     if (!route.didPop(result)) return false;
@@ -63,23 +65,19 @@ class RootRouterDelegate extends RouterDelegate<RouterState> {
           ],
         ),
       ) ??
-          true;
-
+      true;
 
   List<Page> get _extraPages {
     if (_routerCubit.state is RouteCounterState) {
       return [
-        _materialPage(valueKey: "counterPage", child: CounterPage())
+        _materialPage(valueKey: "counterPage", child: const CounterPage())
       ];
     } else if (_routerCubit.state is RouteCameraState) {
-      return [
-        _materialPage(valueKey: "cameraPage", child: CameraPage())
-      ];
+      return [_materialPage(valueKey: "cameraPage", child: const CameraPage())];
     } else if (_routerCubit.state is RouteShutterState) {
       return [
-        _materialPage(valueKey: "shutterState", child: ShutterPage())
+        _materialPage(valueKey: "shutterState", child: const ShutterPage())
       ];
-
     } else {
       return [];
     }

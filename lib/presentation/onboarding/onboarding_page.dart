@@ -11,30 +11,28 @@ class OnboardingPage extends StatelessWidget {
 }
 
 class _OnboardingPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:
-    Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+    return Scaffold(
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
           Column(children: [
             Column(children: [
-              TextButton(onPressed: () =>
-              {
-                context.read<RouterCubit>().goCounter()
-              }, child: Text("Go as a counter")),
-              TextButton(onPressed: () =>
-              {
-                context.read<RouterCubit>().goCamera()
-              }, child: Text("Go as a camera")),
-              SizedBox(height: 10),
-              TextButton(onPressed: () =>
-              {
-                context.read<RouterCubit>().goShutter()
-              }, child: Text("Go as a shutter"),)
+              TextButton(
+                  onPressed: () => {context.read<RouterCubit>().goCounter()},
+                  child: const Text("Go as a counter")),
+              TextButton(
+                  onPressed: () => {context.read<RouterCubit>().goCamera()},
+                  child: const Text("Go as a camera")),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () => {context.read<RouterCubit>().goShutter()},
+                child: const Text("Go as a shutter"),
+              )
             ])
           ])
-        ])
-    ));
+        ])));
   }
 }
