@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:photoshutter/repository/bluetoothCentralRepository/bluetooth_peripheral_repository_impl.dart';
+import 'package:photoshutter/repository/bluetoothPeripheralRepository/bluetooth_peripheral_repository_impl.dart';
 
 part 'camera_state.dart';
 part 'camera_event.dart';

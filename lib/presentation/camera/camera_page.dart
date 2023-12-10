@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photoshutter/presentation/camera/bloc/camera_bloc.dart';
-import 'package:photoshutter/repository/bluetoothCentralRepository/bluetooth_peripheral_repository_impl.dart';
+import 'package:photoshutter/repository/bluetoothPeripheralRepository/bluetooth_peripheral_repository_impl.dart';
 import 'package:photoshutter/router/router_cubit.dart';
 import 'package:focus_detector/focus_detector.dart';
 

@@ -24,6 +24,10 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   @override
   Stream<List<ScannedDevice>> scannedDevices() {
     return FlutterBluePlus.scanResults.map((list) => list
+        .where((device) => device.advertisementData.serviceUuids.firstOrNull
+            .toString()
+            .toUpperCase()
+            .contains("0FE7"))
         .map((device) => ScannedDevice(
             device.advertisementData.serviceUuids.firstOrNull.toString(),
             adLocalName: device.advertisementData.localName.toString()))

@@ -82,10 +82,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_ble_peripheral
-      sha256: "50392541155754cb506bd907523d693d389b99c749a98c0ac73f337403e1d321"
+      sha256: fa4e084e3248398069f5c5814267a1e9206477aa2ea2b6fb4f3358c1bc5236c3
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.3"
   flutter_bloc:
     dependency: "direct main"
     description:

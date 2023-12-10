@@ -9,12 +9,18 @@ class BluetoothPeripheralRepositoryImpl extends BluetoothPeripheralRepository {
       manufacturerData: Uint8List.fromList([1, 2, 3, 4, 5, 6]),
       localName: "hehe");
 
+  final AdvertiseSettings advertiseSettings = AdvertiseSettings(
+    connectable: true,
+    timeout: 0,
+  );
+
   BluetoothPeripheralRepositoryImpl();
 
   @override
   Stream<bool> runBluetoothPeripheral() {
     return FlutterBlePeripheral()
-        .start(advertiseData: advertiseData)
+        .start(
+            advertiseData: advertiseData, advertiseSettings: advertiseSettings)
         .asStream()
         .map<bool>((event) => event == BluetoothPeripheralState.granted);
   }
