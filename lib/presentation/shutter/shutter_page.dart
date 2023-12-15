@@ -44,8 +44,14 @@ class _ShutterPage extends StatelessWidget {
                               children: state.scannedDeviceList
                                   .map((scannedDevice) => Row(children: [
                                         const Spacer(),
-                                        Text(scannedDevice.id),
-                                        Text(scannedDevice.adLocalName ?? ""),
+                                        scannedDevice.connectable
+                                            ? TextButton(
+                                                onPressed: () => {
+                                                      _connectToDevice(
+                                                          scannedDevice.id)
+                                                    },
+                                                child: Text(scannedDevice.id))
+                                            : Text(scannedDevice.id),
                                         const Spacer()
                                       ]))
                                   .toList()),
@@ -59,5 +65,10 @@ class _ShutterPage extends StatelessWidget {
                             child: const Text("close me")),
                       ])));
             })));
+  }
+
+  _connectToDevice(String deviceId) {
+    // ignore: avoid_print
+    print("connect to device $deviceId");
   }
 }

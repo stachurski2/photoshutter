@@ -34,7 +34,9 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
               false)
           .map((device) => ScannedDevice(
               device.advertisementData.serviceUuids.firstOrNull.toString(),
+              device.advertisementData.connectable,
               adLocalName: device.advertisementData.localName))
+          .toSet()
           .toList();
     });
   }
