@@ -1,27 +1,34 @@
 import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 import 'dart:typed_data';
+import 'package:photoshutter/repository/helpers/bluetooth_constants.dart';
 part 'bluetooth_peripheral_repository.dart';
 
 class BluetoothPeripheralRepositoryImpl extends BluetoothPeripheralRepository {
-  final AdvertiseData advertiseData = AdvertiseData(
-      serviceUuid: 'bf27730d-860a-4e09-889c-2d8b6a9e0fe7',
-      manufacturerId: 1234,
-      manufacturerData: Uint8List.fromList([1, 2, 3, 4, 5, 6]),
-      localName: "hehe");
+  final AdvertiseData advertiseData;
+  final AdvertiseSettings advertiseSettings;
+  final FlutterBlePeripheral _blePeripheral;
 
-  final AdvertiseSettings advertiseSettings = AdvertiseSettings(
-    connectable: true,
-    timeout: 0,
-  );
-
-  BluetoothPeripheralRepositoryImpl();
+  BluetoothPeripheralRepositoryImpl()
+      : advertiseData = AdvertiseData(
+            serviceUuid: BluetoothConstants.serviceUuid,
+            manufacturerId: BluetoothConstants.manufacturerId,
+            manufacturerData:
+                Uint8List.fromList(BluetoothConstants.manufacturerData),
+            localName: BluetoothConstants.localName),
+        advertiseSettings = AdvertiseSettings(
+          connectable: true,
+          timeout: 0,
+        ),
+        _blePeripheral = FlutterBlePeripheral();
 
   @override
   Stream<bool> runBluetoothPeripheral() {
-    return FlutterBlePeripheral()
-        .start(
-            advertiseData: advertiseData, advertiseSettings: advertiseSettings)
-        .asStream()
-        .map<bool>((event) => event == BluetoothPeripheralState.granted);
+    _blePeripheral.start(
+        advertiseData: advertiseData, advertiseSettings: advertiseSettings);
+
+    return _blePeripheral.onPeripheralStateChanged?.map((event) =>
+            event == PeripheralState.idle ||
+            event == PeripheralState.advertising) ??
+        Stream.empty();
   }
 }

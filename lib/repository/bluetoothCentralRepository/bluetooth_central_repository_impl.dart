@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:photoshutter/repository/helpers/bluetooth_constants.dart';
 import 'scanned_device.dart';
 part 'bluetooth_central_repository.dart';
 
@@ -13,24 +14,28 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   @override
   Stream<bool> runBluetoothCentral() {
     return _adapterStateStateStream
-        .map<bool>((event) => event == BluetoothAdapterState.on ? true : false);
+        .map((event) => event == BluetoothAdapterState.on);
   }
 
   @override
-  scanDevices() {
+  void scanDevices() {
     FlutterBluePlus.startScan();
   }
 
   @override
   Stream<List<ScannedDevice>> scannedDevices() {
-    return FlutterBluePlus.scanResults.map((list) => list
-        .where((device) => device.advertisementData.serviceUuids.firstOrNull
-            .toString()
-            .toUpperCase()
-            .contains("0FE7"))
-        .map((device) => ScannedDevice(
-            device.advertisementData.serviceUuids.firstOrNull.toString(),
-            adLocalName: device.advertisementData.localName.toString()))
-        .toList());
+    return FlutterBluePlus.scanResults.map((list) {
+      return list
+          .where((device) =>
+              device.advertisementData.serviceUuids.firstOrNull
+                  ?.toUpperCase()
+                  .contains(BluetoothConstants.lastFourCharsFromServiceUuid
+                      .toUpperCase()) ??
+              false)
+          .map((device) => ScannedDevice(
+              device.advertisementData.serviceUuids.firstOrNull.toString(),
+              adLocalName: device.advertisementData.localName))
+          .toList();
+    });
   }
 }
