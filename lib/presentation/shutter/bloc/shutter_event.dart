@@ -5,10 +5,12 @@ abstract class ShutterEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ShutterAppearEvent extends ShutterEvent {
+class ShutterAppearEvent extends ShutterEvent {}
 
-}
+class ShutterScanEvent extends ShutterEvent {}
 
-class ShutterScanEvent extends ShutterEvent {
+class ShutterConnectEvent extends ShutterEvent {
+  final String deviceId;
 
+  ShutterConnectEvent(this.deviceId);
 }

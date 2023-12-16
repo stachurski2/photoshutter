@@ -6,6 +6,7 @@ part 'bluetooth_central_repository.dart';
 
 class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   late Stream<BluetoothAdapterState> _adapterStateStateStream;
+  var _scannedDevices = <ScanResult>[];
 
   BluetoothCentralRepositoryImpl() {
     _adapterStateStateStream = FlutterBluePlus.adapterState;
@@ -25,6 +26,7 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   @override
   Stream<List<ScannedDevice>> scannedDevices() {
     return FlutterBluePlus.scanResults.map((list) {
+      _scannedDevices = list;
       return list
           .where((device) =>
               device.advertisementData.serviceUuids.firstOrNull
@@ -38,6 +40,21 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
               adLocalName: device.advertisementData.localName))
           .toSet()
           .toList();
-    });
+    }).distinct();
+  }
+
+  @override
+  Stream<bool> connectToDevice(String deviceId) {
+    final device = _scannedDevices.firstWhere((device) =>
+        device.advertisementData.serviceUuids.firstOrNull.toString() ==
+        deviceId);
+    if (device != null) {
+      return device.device
+          .connect()
+          .asStream()
+          .map((_) => device.device.isConnected);
+    } else {
+      return Stream.value(false);
+    }
   }
 }

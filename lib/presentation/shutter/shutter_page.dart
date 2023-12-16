@@ -31,6 +31,8 @@ class _ShutterPage extends StatelessWidget {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                        const Text("isConnected:"),
+                        Text(state.isConnected.toString()),
                         const Text("shutter"),
                         Text("Bluetooth active: ${state.isBluetoothActive}"),
                         if (state.isBluetoothActive == true) ...[
@@ -47,8 +49,13 @@ class _ShutterPage extends StatelessWidget {
                                         scannedDevice.connectable
                                             ? TextButton(
                                                 onPressed: () => {
-                                                      _connectToDevice(
-                                                          scannedDevice.id)
+                                                      BlocProvider.of<
+                                                                  ShutterBloc>(
+                                                              context)
+                                                          .add(
+                                                              ShutterConnectEvent(
+                                                                  scannedDevice
+                                                                      .id))
                                                     },
                                                 child: Text(scannedDevice.id))
                                             : Text(scannedDevice.id),
