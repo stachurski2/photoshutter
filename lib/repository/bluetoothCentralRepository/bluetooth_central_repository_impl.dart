@@ -2,11 +2,15 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:photoshutter/repository/helpers/bluetooth_constants.dart';
 import 'scanned_device.dart';
+import 'package:rxdart/rxdart.dart'; // Import the rxdart package
 part 'bluetooth_central_repository.dart';
 
 class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   late Stream<BluetoothAdapterState> _adapterStateStateStream;
   var _scannedDevices = <ScanResult>[];
+  get _isConnected => FlutterBluePlus.connectedDevices.isNotEmpty;
+
+  final _isConnectedSubject = BehaviorSubject<bool>();
 
   BluetoothCentralRepositoryImpl() {
     _adapterStateStateStream = FlutterBluePlus.adapterState;
@@ -14,8 +18,10 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
 
   @override
   Stream<bool> runBluetoothCentral() {
+    _isConnectedSubject.add(_isConnected);
     return _adapterStateStateStream
-        .map((event) => event == BluetoothAdapterState.on);
+        .map((event) => event == BluetoothAdapterState.on)
+        .asBroadcastStream();
   }
 
   @override
@@ -44,17 +50,17 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   }
 
   @override
-  Stream<bool> connectToDevice(String deviceId) {
+  connectToDevice(String deviceId) {
     final device = _scannedDevices.firstWhere((device) =>
         device.advertisementData.serviceUuids.firstOrNull.toString() ==
         deviceId);
-    if (device != null) {
-      return device.device
-          .connect()
-          .asStream()
-          .map((_) => device.device.isConnected);
-    } else {
-      return Stream.value(false);
-    }
+    device.device.connect();
+    FlutterBluePlus.stopScan();
+    _isConnectedSubject.add(_isConnected);
+  }
+
+  @override
+  Stream<bool> isConnected() {
+    return _isConnectedSubject.asBroadcastStream();
   }
 }

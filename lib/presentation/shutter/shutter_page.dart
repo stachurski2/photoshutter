@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photoshutter/repository/bluetoothCentralRepository/bluetooth_central_repository_impl.dart';
@@ -26,6 +27,11 @@ class _ShutterPage extends StatelessWidget {
                     BlocProvider.of<ShutterBloc>(context)
                         .add(ShutterAppearEvent());
                     context.read<ShutterBloc>().add(ShutterAppearEvent());
+                    BlocProvider.of<ShutterBloc>(context)
+                        .add(ShutterListenConnectionEvent());
+                    context
+                        .read<ShutterBloc>()
+                        .add(ShutterListenConnectionEvent());
                   },
                   child: Center(
                       child: Column(
@@ -35,7 +41,8 @@ class _ShutterPage extends StatelessWidget {
                         Text(state.isConnected.toString()),
                         const Text("shutter"),
                         Text("Bluetooth active: ${state.isBluetoothActive}"),
-                        if (state.isBluetoothActive == true) ...[
+                        if (state.isBluetoothActive == true &&
+                            !state.isConnected) ...[
                           TextButton(
                               onPressed: () => {
                                     BlocProvider.of<ShutterBloc>(context)
@@ -62,6 +69,11 @@ class _ShutterPage extends StatelessWidget {
                                         const Spacer()
                                       ]))
                                   .toList()),
+                        ] else if (state.isBluetoothActive == true &&
+                            state.isConnected) ...[
+                          const Text("connected"),
+                        ] else ...[
+                          const Text("bluetooth not active"),
                         ],
                         const SizedBox(
                           height: 10,
@@ -72,10 +84,5 @@ class _ShutterPage extends StatelessWidget {
                             child: const Text("close me")),
                       ])));
             })));
-  }
-
-  _connectToDevice(String deviceId) {
-    // ignore: avoid_print
-    print("connect to device $deviceId");
   }
 }

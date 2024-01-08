@@ -14,3 +14,5 @@ class ShutterConnectEvent extends ShutterEvent {
 
   ShutterConnectEvent(this.deviceId);
 }
+
+class ShutterListenConnectionEvent extends ShutterEvent {}
