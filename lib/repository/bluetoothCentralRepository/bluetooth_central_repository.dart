@@ -7,6 +7,8 @@ abstract class BluetoothCentralRepository {
 
   connectToDevice(String deviceId);
 
+  disconnect();
+
   Stream<bool> isConnected();
 
   Stream<List<ScannedDevice>> scannedDevices();

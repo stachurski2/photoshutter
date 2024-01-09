@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photoshutter/repository/bluetoothCentralRepository/bluetooth_central_repository_impl.dart';
@@ -72,6 +71,12 @@ class _ShutterPage extends StatelessWidget {
                         ] else if (state.isBluetoothActive == true &&
                             state.isConnected) ...[
                           const Text("connected"),
+                          TextButton(
+                              onPressed: () => {
+                                    BlocProvider.of<ShutterBloc>(context)
+                                        .add(ShutterDisconnectEvent())
+                                  },
+                              child: const Text("disconnect"))
                         ] else ...[
                           const Text("bluetooth not active"),
                         ],

@@ -16,3 +16,5 @@ class ShutterConnectEvent extends ShutterEvent {
 }
 
 class ShutterListenConnectionEvent extends ShutterEvent {}
+
+class ShutterDisconnectEvent extends ShutterEvent {}

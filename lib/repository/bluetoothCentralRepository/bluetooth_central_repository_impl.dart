@@ -50,17 +50,25 @@ class BluetoothCentralRepositoryImpl extends BluetoothCentralRepository {
   }
 
   @override
-  connectToDevice(String deviceId) {
+  connectToDevice(String deviceId) async {
     final device = _scannedDevices.firstWhere((device) =>
         device.advertisementData.serviceUuids.firstOrNull.toString() ==
         deviceId);
-    device.device.connect();
-    FlutterBluePlus.stopScan();
+    await device.device.connect();
+    await FlutterBluePlus.stopScan();
     _isConnectedSubject.add(_isConnected);
   }
 
   @override
   Stream<bool> isConnected() {
     return _isConnectedSubject.asBroadcastStream();
+  }
+
+  @override
+  disconnect() async {
+    for (var device in FlutterBluePlus.connectedDevices) {
+      await device.disconnect();
+    }
+    _isConnectedSubject.add(_isConnected);
   }
 }

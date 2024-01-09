@@ -14,6 +14,7 @@ class ShutterBloc extends Bloc<ShutterEvent, ShutterState> {
     on<ShutterScanEvent>(_scanBluetoothDevicesState);
     on<ShutterConnectEvent>(_connectToDeviceState);
     on<ShutterListenConnectionEvent>(_listenConnectionState);
+    on<ShutterDisconnectEvent>(_disconnectState);
   }
 
   void _startBluetoothCentralState(
@@ -50,5 +51,10 @@ class ShutterBloc extends Bloc<ShutterEvent, ShutterState> {
     await emit.forEach(isConnectedStream, onData: (bool isConnected) {
       return state.copyWith(isConnected: isConnected);
     });
+  }
+
+  void _disconnectState(
+      ShutterDisconnectEvent event, Emitter<ShutterState> emit) async {
+    bluetoothCentralRepository.disconnect();
   }
 }
